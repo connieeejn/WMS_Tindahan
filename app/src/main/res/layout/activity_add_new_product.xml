@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".AddNewProduct">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start"
+        android:layout_marginTop="20dp"
+        >
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/back_arrow_icon"
+            android:contentDescription="Back Button"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Product"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        android:layout_marginTop="40dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+
+        <EditText
+            android:id="@+id/prodNameEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:backgroundTint="#D5F2D5"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/edit_text_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description: "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/prodDescEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:backgroundTint="#D5F2D5"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/edit_text_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/prodPriceEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:backgroundTint="#D5F2D5"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/edit_text_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category: "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/prodCategoryEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:backgroundTint="#D5F2D5"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/edit_text_background"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity: "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/prodQtyEditTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:backgroundTint="#D5F2D5"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/edit_text_background"/>
+
+        <!-- TODO: Add upload image here        -->
+
+
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Product"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="#268724"
+            android:textColor="@android:color/white" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

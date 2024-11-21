@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:backgroundTint="@color/white"
+    android:elevation="8dp">
+
+    <!-- HorizontalScrollView to allow horizontal scrolling -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- LinearLayout with horizontal orientation to place buttons in a row -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Filter buttons arranged horizontally -->
+            <Button
+                android:id="@+id/filterToday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today"
+                android:backgroundTint="@color/light_green"
+                android:textColor="@color/black"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/filterYesterday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@color/light_grey"
+                android:textColor="@android:color/black"
+                android:text="Yesterday"
+              />
+
+            <Button
+                android:id="@+id/filterLast7Days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last 7 days"
+                android:backgroundTint="@color/light_grey"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="8dp"/>
+
+            <Button
+                android:id="@+id/filterLast30Days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last 30 days"
+                android:backgroundTint="@color/light_grey"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="8dp"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

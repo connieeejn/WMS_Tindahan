@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:id="@+id/main"
+    android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome,"
+            android:textSize="25sp"
+            android:textColor="#268724"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+         />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="See what's inside Sari Store."
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            />
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:src="@drawable/groceries"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account? "
+                android:textSize="15sp"
+
+                />
+
+            <TextView
+                android:id="@+id/mainLoginBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#268724"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/mainSignUpBtn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Sign up with email"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#268724"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@android:color/white" />
+
+
+
+
+
+</LinearLayout>
