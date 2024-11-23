@@ -24,9 +24,6 @@ class SignUp : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up)
 
-        val baseUrl = readBaseUrl(this)
-        apiService = RetrofitClient.getRetrofitInstance(baseUrl).create(WmsApiService::class.java)
-
         val backButton: ImageView = findViewById(R.id.signUpBackBtn)
         val nameEditText: EditText = findViewById(R.id.signUpNameEditTxt)
         val emailEditText: EditText = findViewById(R.id.signUpEmailEditTxt)
@@ -36,8 +33,8 @@ class SignUp : AppCompatActivity() {
 
 
         backButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
         }
 
 
