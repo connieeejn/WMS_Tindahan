@@ -8,36 +8,45 @@
     tools:context=".fragment.InventoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/inventoryFilterBtnLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inventory Page" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filter Category"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/edit_text_background"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/addItemButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#268724"
-        android:text="Add" />
+        android:layout_marginTop="10dp"
+        android:text="Add Product" />
 
-    <Button
-        android:id="@+id/getItemsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#268724"
-        android:text="Get items" />
-
-    <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Results will appear here"
-        android:paddingTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"/>
 
 
 </LinearLayout>

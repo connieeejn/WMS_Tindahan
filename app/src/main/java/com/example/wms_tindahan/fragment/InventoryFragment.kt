@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wms_tindahan.AddNewProduct
+import com.example.wms_tindahan.Inventory
 import com.example.wms_tindahan.Item
 import com.example.wms_tindahan.ItemAdapter
 import com.example.wms_tindahan.ItemRepository
@@ -19,8 +21,8 @@ import com.example.wms_tindahan.R
 class InventoryFragment : Fragment() {
 
     private lateinit var addBtn: Button
-    private lateinit var getItemsBtn: Button
-    private lateinit var resultView: TextView
+    private lateinit var filterBtn: Button
+    private lateinit var categorySpinner: Spinner
     private lateinit var repository: ItemRepository
     private lateinit var recyclerView: RecyclerView
     private lateinit var itemAdapter: ItemAdapter
@@ -50,17 +52,6 @@ class InventoryFragment : Fragment() {
         // Test add new item; this is temporary
         // TODO: move add btn to the toolbar
         addBtn = view.findViewById(R.id.addItemButton)
-        getItemsBtn = view.findViewById(R.id.getItemsButton)
-        resultView = view.findViewById(R.id.resultTextView)
-
-        getItemsBtn.setOnClickListener {
-            repository.getAllItems({ items ->
-                resultView.text = items.joinToString("\n") { "${it.item_name} ${it.item_description} ${it.category} ${it.price} ${it.stock_quantity} "}
-            }, { error ->
-                resultView.text = error
-            } )
-        }
-
 
 
         // Set click listener for the button
@@ -69,10 +60,6 @@ class InventoryFragment : Fragment() {
             val intent = Intent(activity, AddNewProduct::class.java)
             startActivity(intent)
         }
-
-
-
-
 
         return view
     }
@@ -94,6 +81,8 @@ class InventoryFragment : Fragment() {
         super.onResume()
         // Refresh the list when the fragment becomes visible again
         loadItems()
+
+        (activity as? Inventory)?.setToolbarTitle("Inventory")
     }
 
 

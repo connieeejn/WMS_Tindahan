@@ -7,16 +7,18 @@ data class User(
 )
 
 data class Item (
+    val user_id: Int = 1,
+    val id: Int? = null,
     val item_name: String,
     val item_description: String,
     val category: String,
     val price: Double,
     val stock_quantity: Int,
-    val image: String
+    val image: String ="dorito.png"
 )
 
 data class NewItemRequest(
-    val user_id: Int = 2,
+    val user_id: Int = 1,
     val item_name: String,
     val item_description: String,
     val category: String,
@@ -24,3 +26,4 @@ data class NewItemRequest(
     val stock_quantity: Int,
     val image: String = "dorito.png"
     )
+

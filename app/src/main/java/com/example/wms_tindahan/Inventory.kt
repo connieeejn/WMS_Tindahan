@@ -1,17 +1,15 @@
 package com.example.wms_tindahan
 
+//import android.widget.Toolbar
+
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-//import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.wms_tindahan.fragment.InventoryFragment
 import com.example.wms_tindahan.fragment.ReportFragment
@@ -32,6 +30,7 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
         // TODO: Different across fragments
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false); // Disable default title
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -46,6 +45,11 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
             navigationView.setCheckedItem(R.id.nav_inventory)
         }
 
+    }
+
+    fun setToolbarTitle(title: String?) {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle(title)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

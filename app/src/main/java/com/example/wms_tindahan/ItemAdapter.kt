@@ -2,6 +2,7 @@ package com.example.wms_tindahan
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,6 +38,7 @@ class ItemAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val product = products[position]
+
         holder.name.text = product.item_name
         holder.description.text = product.item_description
         holder.price.text = "$${product.price.toString()}"
@@ -44,10 +46,15 @@ class ItemAdapter(
         holder.category.text = product.category
         // TODO: add image
 
+
+
+        // Log the product details
+        Log.d("ITEM_DETAILS", "ID: ${product.id}, Name: ${product.item_name}, Description: ${product.item_description}, Price: $${product.price}, Quantity: ${product.stock_quantity}, Category: ${product.category}")
         holder.itemCard.setOnClickListener {
             val intent = Intent(holder.itemView.context, Product::class.java)
 
             // Pass the product data to the Product activity
+            intent.putExtra("product_id", product.id)
             intent.putExtra("product_name", product.item_name)
             intent.putExtra("product_description", product.item_description)
             intent.putExtra("product_price", product.price)
