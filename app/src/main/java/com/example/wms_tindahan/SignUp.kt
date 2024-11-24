@@ -4,55 +4,91 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUp : AppCompatActivity() {
-    private lateinit var apiService: WmsApiService
 
-    private lateinit var nameEditText: EditText
-    private lateinit var emailEditText
-    : EditText
-
+    private lateinit var editTextUsername: EditText
+    private lateinit var editTextEmail: EditText
+    private lateinit var editTextPassword: EditText
+    private lateinit var buttonSignUp: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up)
 
-        val backButton: ImageView = findViewById(R.id.signUpBackBtn)
-        val nameEditText: EditText = findViewById(R.id.signUpNameEditTxt)
-        val emailEditText: EditText = findViewById(R.id.signUpEmailEditTxt)
-        val passwordEditText: EditText = findViewById(R.id.signUpPasswordEditTxt)
-        val signUpBtn: Button = findViewById(R.id.signUpButton)
-        val loginBtn: TextView = findViewById(R.id.signUpLoginBtn)
+        // Initialize UI components
+        editTextUsername = findViewById(R.id.signUpNameEditTxt)
+        editTextEmail = findViewById(R.id.signUpEmailEditTxt)
+        editTextPassword = findViewById(R.id.signUpPasswordEditTxt)
+        buttonSignUp = findViewById(R.id.signUpButton)
 
+        // Set button click listener
+        buttonSignUp.setOnClickListener {
+            val username = editTextUsername.text.toString().trim()
+            val email = editTextEmail.text.toString().trim()
+            val password = editTextPassword.text.toString().trim()
 
-        backButton.setOnClickListener {
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+            // Validate inputs
+            if (validateInputs(username, email, password)) {
+                // Create Retrofit instance and API service
+                val apiService = RetrofitClient.getInstance(this)
+
+                // Prepare request body
+                val request = RegisterRequest(username, email, password)
+
+                // Perform network call
+                apiService.registerUser(request).enqueue(object : Callback<ApiResponse> {
+                    override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                        if (response.isSuccessful && response.body() != null) {
+                            val apiResponse = response.body()
+                            Toast.makeText(this@SignUp, apiResponse?.message ?: "Sign up successful", Toast.LENGTH_SHORT).show()
+
+                            // Navigate to Login activity after successful sign-up
+                            val intent = Intent(this@SignUp, Login::class.java)  // Assuming LoginActivity is your login screen
+                            startActivity(intent)
+
+                            // Finish the SignUp activity so the user cannot go back to it
+                            finish()
+                        } else {
+                            Toast.makeText(this@SignUp, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                        Toast.makeText(this@SignUp, "Sign up failed: ${t.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
         }
-
-
-
-        signUpBtn.setOnClickListener {
-            // TODO: create user then redirect to main page
-            registerUser()
-        }
-
-
-        loginBtn.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
-        }
-
     }
 
-    private fun registerUser() {
-        TODO("Not yet implemented")
+    private fun validateInputs(username: String, email: String, password: String): Boolean {
+        if (username.isEmpty()) {
+            editTextUsername.error = "Username is required"
+            editTextUsername.requestFocus()
+            return false
+        }
+        if (email.isEmpty()) {
+            editTextEmail.error = "Email is required"
+            editTextEmail.requestFocus()
+            return false
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.error = "Invalid email format"
+            editTextEmail.requestFocus()
+            return false
+        }
+        if (password.isEmpty()) {
+            editTextPassword.error = "Password is required"
+            editTextPassword.requestFocus()
+            return false
+        }
+
+        return true
     }
 }
