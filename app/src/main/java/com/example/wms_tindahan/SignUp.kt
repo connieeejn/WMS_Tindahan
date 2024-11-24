@@ -39,7 +39,7 @@ class SignUp : AppCompatActivity() {
                 val apiService = RetrofitClient.getInstance(this)
 
                 // Prepare request body
-                val request = RegisterRequest(username, email, password)
+                val request = RegisterRequest(email,username, password)
 
                 // Perform network call
                 apiService.registerUser(request).enqueue(object : Callback<ApiResponse> {
