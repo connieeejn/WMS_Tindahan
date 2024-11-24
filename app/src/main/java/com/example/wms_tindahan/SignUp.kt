@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
@@ -16,6 +17,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var buttonSignUp: Button
+    private lateinit var signUpLoginBtn:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class SignUp : AppCompatActivity() {
         editTextEmail = findViewById(R.id.signUpEmailEditTxt)
         editTextPassword = findViewById(R.id.signUpPasswordEditTxt)
         buttonSignUp = findViewById(R.id.signUpButton)
+        signUpLoginBtn = findViewById(R.id.signUpLoginBtn)
 
         // Set button click listener
         buttonSignUp.setOnClickListener {
@@ -65,7 +68,15 @@ class SignUp : AppCompatActivity() {
                 })
             }
         }
+        // Sign-up button click redirects to SignUpActivity
+        signUpLoginBtn.setOnClickListener {
+            startActivity(Intent(this, Login::class.java))
+        }
+
     }
+
+
+
 
     private fun validateInputs(username: String, email: String, password: String): Boolean {
         if (username.isEmpty()) {

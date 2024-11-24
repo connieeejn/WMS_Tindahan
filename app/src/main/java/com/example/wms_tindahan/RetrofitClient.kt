@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 object RetrofitClient {
 
@@ -16,10 +17,10 @@ object RetrofitClient {
         .addInterceptor(loggingInterceptor)
         .build()
 
-    // Pass context from MainActivity to load base URL from assets
+    // Method to initialize Retrofit using the base URL loaded from assets
     fun getInstance(context: Context): WmsApiService {
         val retrofit = Retrofit.Builder()
-            .baseUrl(readBaseUrl(context))
+            .baseUrl(readBaseUrl(context))  // Dynamically load base URL
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -27,24 +28,21 @@ object RetrofitClient {
         return retrofit.create(WmsApiService::class.java)
     }
 
-//    private var retrofit: Retrofit? = null
-//
-//    fun getRetrofitInstance(baseUrl: String): Retrofit {
-//        if (retrofit == null) {
-//            val loggingInterceptor = HttpLoggingInterceptor().apply {
-//                level = HttpLoggingInterceptor.Level.BODY
-//            }
-//
-//            val client = OkHttpClient.Builder()
-//                .addInterceptor(loggingInterceptor)
-//                .build()
-//
-//            retrofit = Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .client(client)
-//                .build()
-//        }
-//        return retrofit!!
-//    }
+    // Helper method to read base URL from assets
+    private fun readBaseUrl(context: Context): String {
+        val baseUrl = StringBuilder()
+
+        try {
+            val inputStream = context.assets.open("base_url.txt")
+            val reader = inputStream.bufferedReader()
+            reader.forEachLine {
+                baseUrl.append(it.trim())
+            }
+            reader.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return baseUrl.toString()
+    }
 }

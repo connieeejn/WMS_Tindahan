@@ -4,29 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-//import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.wms_tindahan.fragment.InventoryFragment
 import com.example.wms_tindahan.fragment.ReportFragment
 import com.example.wms_tindahan.fragment.UserFragment
 import com.google.android.material.navigation.NavigationView
 
-class Report : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+class UserManagement : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_report)
+        setContentView(R.layout.activity_user_management)
 
         drawerLayout = findViewById(R.id.drawer_layout)
 

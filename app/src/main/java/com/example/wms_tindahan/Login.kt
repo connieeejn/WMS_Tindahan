@@ -18,7 +18,7 @@ class Login : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
     private lateinit var loginBtn: Button
     private lateinit var signUpBtn: TextView
-    private lateinit var backButton: ImageView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,12 +29,8 @@ class Login : AppCompatActivity() {
         passwordEditText = findViewById(R.id.loginPasswordEditTxt)
         loginBtn = findViewById(R.id.loginButton)
         signUpBtn = findViewById(R.id.loginSignUpBtn)
-        backButton = findViewById(R.id.loginBackBtn)
 
-        // Back button click redirects to SignUpActivity
-        backButton.setOnClickListener {
-            startActivity(Intent(this, SignUp::class.java))
-        }
+
 
         // Sign-up button click redirects to SignUpActivity
         signUpBtn.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.example.wms_tindahan
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.wms_tindahan.fragment.InventoryFragment
 import com.example.wms_tindahan.fragment.ReportFragment
+import com.example.wms_tindahan.fragment.UserFragment
 import com.google.android.material.navigation.NavigationView
 
 class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -54,7 +56,19 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
                 .replace(R.id.fragment_container, InventoryFragment()).commit()
             R.id.nav_report -> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, ReportFragment()).commit()
-            R.id.nav_logout -> Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+            R.id.nav_user -> supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, UserFragment()).commit()
+            R.id.nav_logout -> {
+                // Show logout toast
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+
+                // Navigate to MainActivity (or wherever you want)
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+
+                // Close the current activity (if you want to exit after logout)
+                finish()
+            }
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
