@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wms_tindahan.userview.UserDashboard
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -83,8 +84,15 @@ class Login : AppCompatActivity() {
                     val apiResponse = response.body()
                     Toast.makeText(this@Login, apiResponse?.message ?: "Login successful", Toast.LENGTH_SHORT).show()
 
-                    // Redirect to Inventory activity
-                    startActivity(Intent(this@Login, Inventory::class.java))
+                    val isAdmin = apiResponse?.user?.isAdmin ?: 0
+                    if (isAdmin == 1) {
+                        // Redirect to Inventory activity for admin users
+                        startActivity(Intent(this@Login, Inventory::class.java))
+                    } else {
+                        // Redirect to User Dashboard activity for regular users
+                        startActivity(Intent(this@Login, UserDashboard::class.java))
+                    }
+
                     finish()
                 } else {
                     Toast.makeText(this@Login, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()

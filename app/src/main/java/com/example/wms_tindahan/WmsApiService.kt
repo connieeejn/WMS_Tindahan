@@ -31,4 +31,7 @@ interface WmsApiService {
 
     @DELETE("/api/item/{id}")
     fun deleteItem(@Path("id") itemId: Int): Call<Void>
+
+    @POST("/api/order")
+    fun placeOrder(@Body newOrder: NewOrderRequest): Call<List<CartItem>>
 }
