@@ -28,7 +28,7 @@ data class NewItemRequest(
 
 data class RegisterRequest(val email: String, val name: String, val password: String)
 data class LoginRequest(val email: String, val password: String)
-data class ApiResponse(val message: String, val id: Int?, val user: User)
+data class ApiResponse(val message: String, val id: Int?, val user: User, val email: String)
 
 data class CartItem(
     val item: Item,    // Original Item (product)

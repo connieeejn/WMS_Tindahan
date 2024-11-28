@@ -31,7 +31,7 @@ class UserDashboard : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        val id = intent.getStringExtra("USER_ID") ?: "Default ID"
+        val userId = intent.getStringExtra("USER_ID") ?: "Default ID"
         val userName = intent.getStringExtra("USER_NAME") ?: "Default Name"
         val email = intent.getStringExtra("USER_EMAIL") ?: "Default Email"
 
