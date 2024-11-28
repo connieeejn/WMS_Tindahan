@@ -30,9 +30,15 @@
         <activity
             android:name=".SignUp"
             android:exported="false" />
+
+        <activity
+            android:name=".userview.UserDashboard"
+            android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
