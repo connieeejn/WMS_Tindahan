@@ -19,14 +19,14 @@ import com.example.wms_tindahan.fragment.ReportFragment
 import com.example.wms_tindahan.fragment.UserFragment
 import com.google.android.material.navigation.NavigationView
 
-class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class Report : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_inventory)
+        setContentView(R.layout.activity_report)
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -44,7 +44,7 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
 
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, InventoryFragment()).commit()
+                .replace(R.id.fragment_container, ReportFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_inventory)
         }
 

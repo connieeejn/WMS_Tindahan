@@ -5,49 +5,50 @@
     android:padding="16dp"
     android:background="?android:attr/selectableItemBackground"
     android:gravity="center_vertical">
-
+    <!-- User Name -->
+    <TextView
+        android:id="@+id/userID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="1"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="start"
+        android:scrollHorizontally="false"
+        android:maxLines="2" /> <!-- Allow wrapping -->
+    <!-- User Name -->
     <TextView
         android:id="@+id/userName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="John Doe"
         android:textColor="#000000"
         android:textSize="14sp"
         android:gravity="start"
-        android:paddingEnd="16dp"
-        android:ellipsize="end"
-        android:maxLines="1" />
+        android:scrollHorizontally="false"
+        android:maxLines="2" /> <!-- Allow wrapping -->
 
+    <!-- User Email -->
     <TextView
         android:id="@+id/userEmail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
         android:text="john.doe@example.com"
         android:textColor="#000000"
         android:textSize="14sp"
         android:gravity="start"
-        android:paddingEnd="16dp"
-        android:ellipsize="end"
-        android:maxLines="1" />
+        android:scrollHorizontally="false"
+        android:maxLines="2" /> <!-- Allow wrapping -->
 
+    <!-- User Role (Checkbox) -->
     <CheckBox
         android:id="@+id/userRole"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:height="10dp"
-        android:checked="true"
-        android:gravity="center"
-        android:minWidth="48dp" />
+        android:checked="true" />
 
-    <Button
-        android:id="@+id/removeUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remove"
-        android:textColor="@color/dark_grey"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="center" />
 </LinearLayout>
