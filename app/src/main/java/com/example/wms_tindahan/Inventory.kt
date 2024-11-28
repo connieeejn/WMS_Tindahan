@@ -34,6 +34,7 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
         // TODO: Different across fragments
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false); // Disable default title
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -73,6 +74,11 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    fun setToolbarTitle(title: String?) {
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setTitle(title)
     }
 
     override fun onBackPressed() {
