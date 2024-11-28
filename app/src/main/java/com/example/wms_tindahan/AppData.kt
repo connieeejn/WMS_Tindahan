@@ -6,7 +6,7 @@ data class User(
     val name: String,
     var isAdmin: Int,
     val _id: String? ,
-    val id:Int
+
 )
 data class Item (
     val user_id: Int = 1,
@@ -49,13 +49,13 @@ data class OrderItem(
 data class RegisterRequest(val email: String, val name: String, val password: String)
 data class LoginRequest(val email: String, val password: String)
 
+data class ApiResponse(val message: String, val id: Int?, val user: User, val email: String)
 
 data class TopSellingItem(
     val _id: Int,
     val item_name: String,
-    val total_quantity: Int
-=======
-data class ApiResponse(val message: String, val id: Int?, val user: User)
+    val total_quantity: Int)
+
 
 data class CartItem(
     val item: Item,    // Original Item (product)
