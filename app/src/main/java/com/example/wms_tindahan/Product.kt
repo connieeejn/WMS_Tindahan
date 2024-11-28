@@ -74,7 +74,7 @@ class Product : AppCompatActivity() {
 
           //  val userId = getUserIdFromPreferences()  // Replace with actual method to get user_id
             // TODO: update userID
-            val userId = 2;
+            val userId = 1;
 
             if (productId != 0) {
                 repository.deleteItem(productId, userId,

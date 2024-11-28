@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class ItemAdapter(
-    private val products: List<Item>
+    private var products: List<Item>
 ):RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     // TODO: add image
@@ -69,6 +69,11 @@ class ItemAdapter(
 
     override fun getItemCount(): Int {
         return products.size
+    }
+
+    fun updateData(newItems: List<Item>) {
+        this.products = newItems
+        notifyDataSetChanged()
     }
 
 }
