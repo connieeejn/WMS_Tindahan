@@ -90,7 +90,17 @@ class Login : AppCompatActivity() {
                         startActivity(Intent(this@Login, Inventory::class.java))
                     } else {
                         // Redirect to User Dashboard activity for regular users
-                        startActivity(Intent(this@Login, UserDashboard::class.java))
+                        val userId = apiResponse?.user?.id
+                        val userName = apiResponse?.user?.name
+                        val email = apiResponse?.user?.email
+
+                        val intent = Intent(this@Login, UserDashboard::class.java).apply {
+                            putExtra("USER_NAME", userName)
+                            putExtra("USER_EMAIL", email)
+                            putExtra("USER_EMAIL", userId)
+                        }
+                        startActivity(intent)
+
                     }
 
                     finish()

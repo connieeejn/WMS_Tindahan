@@ -2,6 +2,7 @@ package com.example.wms_tindahan.userview
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +31,32 @@ class UserDashboard : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
+        val id = intent.getStringExtra("USER_ID") ?: "Default ID"
+        val userName = intent.getStringExtra("USER_NAME") ?: "Default Name"
+        val email = intent.getStringExtra("USER_EMAIL") ?: "Default Email"
+
+        val headerView = navigationView.getHeaderView(0)
+        val headerName = headerView.findViewById<TextView>(R.id.username)
+        val headerEmail = headerView.findViewById<TextView>(R.id.email) // Replace 'header_email' with the ID of another view
+
+        headerName.text = userName
+        headerEmail.text = email
+
+
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
         if(savedInstanceState == null) {
+            val fragment = UserProductListFragment()
+            val bundle = Bundle()
+            bundle.putString("USER_ID", userId) // Pass the ID to the fragment
+            fragment.arguments = bundle
+
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, UserProductListFragment()).commit()
+                .replace(R.id.fragment_container, fragment)
+                .commit()
+
             navigationView.setCheckedItem(R.id.nav_inventory)
         }
 
