@@ -19,14 +19,14 @@ import com.example.wms_tindahan.fragment.ReportFragment
 import com.example.wms_tindahan.fragment.UserFragment
 import com.google.android.material.navigation.NavigationView
 
-class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class Report : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_inventory)
+        setContentView(R.layout.activity_report)
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
@@ -34,7 +34,6 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
         // TODO: Different across fragments
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false); // Disable default title
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -45,7 +44,7 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
 
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, InventoryFragment()).commit()
+                .replace(R.id.fragment_container, ReportFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_inventory)
         }
 
@@ -74,11 +73,6 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    fun setToolbarTitle(title: String?) {
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        toolbar.setTitle(title)
     }
 
     override fun onBackPressed() {

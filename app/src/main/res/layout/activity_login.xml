@@ -13,22 +13,9 @@
         android:layout_marginTop="20dp"
         >
 
-        <ImageView
-            android:id="@+id/loginBackBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_arrow_icon"
-            android:contentDescription="Back Button"
-            android:layout_gravity="center_vertical"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sign up"
-            android:paddingLeft="10dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_vertical"/>
+
+
 
     </LinearLayout>
 
