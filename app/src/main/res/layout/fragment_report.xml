@@ -1,15 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/report_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.ReportFragment">
+    tools:context=".fragment.InventoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Row for "Report" and "Filter" -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Report" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|end"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"> <!-- Added bottom margin for spacing -->
+
+        <TextView
+            android:id="@+id/report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="0.8"
+            android:text="Financial Report"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="start" />
+
+        <ImageView
+            android:id="@+id/timefilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/filter"
+            android:layout_weight="0.2"
+            android:layout_gravity="end" /> <!-- Align Filter to the right -->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="0dp">
+
+        <!-- ImageView: Add an icon (like "Hi") -->
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:src="@drawable/baseline_waving_hand_24"
+            android:layout_marginEnd="10dp" />
+
+        <!-- TextView: Welcome message -->
+        <TextView
+            android:id="@+id/adminWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:text="Welcome, admin name!"
+            android:layout_marginStart="10dp" /> <!-- Optional margin for spacing between ImageView and Text -->
+    </LinearLayout>
+    <!-- GridLayout for Boxes -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp">
+
+        <!-- Box 1: Total Customers -->
+
+        <!-- Box 2: Total Orders -->
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:background="@drawable/rounded_box_green"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/totalCustomersLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Customers"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalCustomersValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="110"
+                android:textColor="#000000"
+                android:textSize="45sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_box_green"
+            android:layout_marginStart="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/totalOrdersLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Orders"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalOrdersValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="59"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="45sp" />
+        </LinearLayout>
+
+        <!-- Box 3: Total Revenue -->
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_box_green"
+            android:layout_marginEnd="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/totalRevenueLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Total Revenue"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalRevenueValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$800.50"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="45sp" />
+        </LinearLayout>
+
+        <!-- Box 4: Total Inventory Costs -->
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_box_green"
+            android:layout_marginStart="8dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/totalInventoryCostsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Inventory Costs"
+                android:textColor="#000000"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalInventoryCostsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$300.60"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="45sp"  />
+        </LinearLayout>
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Top 3 Selling Items"
+        android:layout_marginStart="20dp" />
+    <!-- RecyclerView for listing items -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewTop3Item"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1" />
+
+    <!-- ListView for Item List -->
+    <ListView
+        android:id="@+id/itemListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:divider="@color/light_grey"
+        android:dividerHeight="0.5dp"/>
 
 </LinearLayout>
