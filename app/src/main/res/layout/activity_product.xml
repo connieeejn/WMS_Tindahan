@@ -7,8 +7,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="20dp"
+    android:padding="40dp"
+    android:paddingTop="50dp"
     tools:context=".Product">
+
+    <ImageButton
+        android:id="@+id/prodCloseBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_close_24"
+        android:layout_gravity="right"
+        android:layout_marginTop="20dp"
+        />
 
     <ImageView
         android:id="@+id/productImg"
@@ -16,7 +26,7 @@
         android:layout_height="200dp"
         android:contentDescription="product img"
         android:src="@mipmap/profile"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
        />
 
 
@@ -26,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="Item name"
+        android:textSize="20sp"
         android:textStyle="bold"
         />
 
@@ -34,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Category"
+        android:textSize="18sp"
         />
 
     <TextView
@@ -43,6 +55,7 @@
         android:text="$3.20"
         android:textStyle="bold"
         android:textColor="@color/green"
+        android:textSize="18sp"
         />
 
     <TextView
@@ -51,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
+        android:textSize="16sp"
         android:text="This is the item description jshfjashfjshfk fjdshfjhsjdfhjddsjhfjdshfjsdhfjsak" />
 
 
@@ -60,6 +74,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:textStyle="bold"
+        android:textSize="18sp"
         android:text="In stock: 500" />
 
 
