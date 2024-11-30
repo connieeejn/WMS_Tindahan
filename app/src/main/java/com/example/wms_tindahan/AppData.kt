@@ -15,7 +15,7 @@ data class Item (
     val category: String,
     val price: Double,
     val stock_quantity: Int,
-    val image: String ="dorito.png" // TODO: remove later when the url image is implemented
+    val image: String
 )
 
 data class NewItemRequest(
@@ -25,7 +25,7 @@ data class NewItemRequest(
     val category: String,
     val price: Double,
     val stock_quantity: Int,
-    val image: String = "dorito.png"
+    val image: String
     )
 
 data class Transaction(

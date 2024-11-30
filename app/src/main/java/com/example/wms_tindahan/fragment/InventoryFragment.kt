@@ -156,10 +156,9 @@ class InventoryFragment : Fragment() {
 
 
     override fun onResume() {
+
         super.onResume()
         // Refresh the list when the fragment becomes visible again
         loadItems()
-
-        (activity as? Inventory)?.setToolbarTitle("Inventory")
     }
 }
