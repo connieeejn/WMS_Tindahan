@@ -2,6 +2,7 @@ package com.example.wms_tindahan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -91,9 +92,10 @@ class Login : AppCompatActivity() {
                         val email = apiResponse?.user?.email
 
                         val intent = Intent(this@Login, UserDashboard::class.java).apply {
+                            putExtra("USER_ID", userId.toString())
                             putExtra("USER_NAME", userName)
                             putExtra("USER_EMAIL", email)
-                            putExtra("USER_EMAIL", userId)
+
                         }
                         startActivity(intent)
 

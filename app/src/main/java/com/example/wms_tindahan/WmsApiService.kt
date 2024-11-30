@@ -54,6 +54,7 @@ interface WmsApiService {
     fun getTopSellingItems(): Call<List<TopSellingItem>>
 
     @POST("/api/order")
-    fun placeOrder(@Body newOrder: NewOrderRequest): Call<List<CartItem>>
+    fun placeOrder(@Body newOrder: NewOrderRequest): Call<NewOrderRequest>
+
 
 }

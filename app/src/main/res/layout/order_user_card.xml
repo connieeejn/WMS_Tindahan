@@ -17,12 +17,7 @@
         android:layout_weight="1"
         android:src="@mipmap/ic_launcher_round" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:paddingLeft="10dp"
-        android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/itemName"
@@ -30,45 +25,61 @@
             android:layout_height="wrap_content"
             android:text="Item name"
             android:textStyle="bold"
+            android:layout_gravity="center"
             />
 
-        <TextView
-            android:id="@+id/itemDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="This is the item description" />
 
-    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="0.75"
         >
 
-        <TextView
-            android:id="@+id/itemPrice"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Total:"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalItemPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="$3.20"
+                android:textColor="#268724"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="$3.20"
-            android:textColor="@color/green"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/subtractButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/rounded_button_background"
+
                 android:text="-"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -76,16 +87,15 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/quantityTextView"
+                android:id="@+id/itemQty"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:text="0"
-                android:textSize="20sp"
                 android:gravity="center"
-               />
+                android:text="0"
+                android:textSize="20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -100,7 +110,8 @@
         </LinearLayout>
 
 
-   </LinearLayout>
+
+    </LinearLayout>
 
 
 </LinearLayout>
