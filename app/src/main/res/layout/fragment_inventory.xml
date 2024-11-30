@@ -4,34 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="30dp"
+    android:padding="20dp"
+    android:id="@+id/inventoryFragment"
     tools:context=".fragment.InventoryFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end"
-        >
+        android:gravity="start|end"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"> <!-- Added bottom margin for spacing -->
 
-        <ImageView
-            android:id="@+id/filterBtn"
+        <TextView
+            android:id="@+id/inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="filter button"
-            android:src="@drawable/filter" />
+            android:layout_weight="1"
+            android:text="Inventory"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="start" />
 
-
-        <ImageView
-            android:id="@+id/addItemButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:contentDescription="add button"
-            android:src="@drawable/add_circle" />
+            android:orientation="horizontal"
+            android:layout_weight="0"
+            android:layout_gravity="end"
+            >
 
+            <ImageView
+                android:id="@+id/filterBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="filter button"
+                android:src="@drawable/filter" />
+
+
+            <ImageView
+                android:id="@+id/addItemButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:contentDescription="add button"
+                android:src="@drawable/add_circle" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/inventoryFilterBtnLayout"
