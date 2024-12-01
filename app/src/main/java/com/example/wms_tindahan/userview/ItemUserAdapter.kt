@@ -1,11 +1,9 @@
 package com.example.userview
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +20,6 @@ class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
         val name: TextView = view.findViewById(R.id.itemName)
         val description: TextView = view.findViewById(R.id.itemDescription)
         val price: TextView = view.findViewById(R.id.itemPrice)
-        val itemCard: LinearLayout = view.findViewById(R.id.item_card_user)
         val quantity: TextView = view.findViewById((R.id.quantityTextView))
         val subtractButton: AppCompatButton = view.findViewById(R.id.subtractButton)
         val addButton: AppCompatButton = view.findViewById(R.id.addButton)
@@ -60,8 +57,7 @@ class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
             }
         }
 
-        // Add button logic
-        holder.addButton.setOnClickListener {
+      holder.addButton.setOnClickListener {
             cartItem.quantity++
             holder.quantity.text = cartItem.quantity.toString()
             notifyItemChanged(position)  // Notify that this item has changed

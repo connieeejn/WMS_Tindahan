@@ -1,5 +1,6 @@
 package com.example.wms_tindahan.userview
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,10 +13,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.userview.ItemUserAdapter
 import com.example.wms_tindahan.CartItem
 import com.example.wms_tindahan.ItemRepository
+import com.example.wms_tindahan.NewOrderRequest
 import com.example.wms_tindahan.R
 
+
+
 class UserProductListFragment: Fragment() {
-    private lateinit var repository: ItemRepository
+    private lateinit var itemRepository: ItemRepository
+    private lateinit var orderRepository: OrderRepository
     private lateinit var recyclerView: RecyclerView
     private val cartItemList = mutableListOf<CartItem>()
     private lateinit var itemAdapter: ItemUserAdapter
@@ -26,8 +31,12 @@ class UserProductListFragment: Fragment() {
     ): View? {        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_inventory_userview, container, false)
 
+        //Retrieve userID
+        val userId = arguments?.getString("USER_ID") ?: activity?.intent?.getStringExtra("USER_ID") ?: "Default ID"
+
         // Initialize repository with context
-        repository = ItemRepository(requireContext())
+        itemRepository = ItemRepository(requireContext())
+        orderRepository = OrderRepository(requireContext())
 
         // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.productsRecyclerView);
@@ -46,18 +55,43 @@ class UserProductListFragment: Fragment() {
             val itemsToAdd = itemAdapter.getItemsWithQuantityGreaterThanZero()
 
         // Create CartItems for the products where quantity > 0
-       val cartItemsToAdd = itemsToAdd.map { CartItem(item = it.item, quantity = it.quantity, total_item_price = it.quantity * it.item.price) }
-            //var newOrder = NewOrderRequest (items = cartItem)
-            println("Cart items to add:")
+       val cartItemsToAdd = itemsToAdd.map { CartItem(item = it.item, quantity = it.quantity) }
+            println(cartItemsToAdd.toString())
+                      /*
             cartItemsToAdd.forEach { cartItem ->
-                println("Item Name: ${cartItem.item.item_name}, Quantity: ${cartItem.quantity}, Item total: ${cartItem.total_item_price}")
-               // var newOrder = NewOrderRequest (items = cartItem)
-            }
+               // println("Userid:${userId}")
+               // println("CartItem -> Item Name: ${cartItem.item.item_name}, Quantity: ${cartItem.quantity}")
+               // println("Item -> ${cartItem.item}")
+                cartItemList.add(cartItem)
+                println(cartItemList.toString())
+            }*/
 
-        // Now you can pass the `cartItemsToAdd` list to wherever you need
-        // For example, to create a new order or send to an API
-        // Example: postOrder(newOrderRequest)
-        //addItemsToCart(cartItemsToAdd)
+
+            val newOrder = NewOrderRequest (user_id = userId.toInt(),items= cartItemsToAdd)
+            /*orderRepository.postOrder(newOrder,
+                onSuccess = {
+                Toast.makeText(requireContext(), "Order added successfully!", Toast.LENGTH_LONG).show()
+
+            },
+                onError = {
+                    Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_LONG).show()
+                }
+            )*/
+
+                val newFragment = UserOrderListFragment() // The fragment to navigate to
+                val bundle = Bundle()
+                bundle.putParcelable("cart_items_to_add", newOrder)
+
+                println(newOrder)
+
+                newFragment.arguments = bundle
+
+                parentFragmentManager.beginTransaction() // Use parentFragmentManager
+                    .replace(com.example.wms_tindahan.R.id.fragment_container, newFragment) // Replace current fragment
+                    .addToBackStack(null) // Add to back stack for navigation
+                    .commit()
+
+
 
         }
 
@@ -67,11 +101,13 @@ class UserProductListFragment: Fragment() {
 
     private fun loadItems() {
         Log.d("LoadItems", "onCreate: Activity started")
-        repository.getAllItems({ items ->
+        itemRepository.getAllItems({ items ->
             // Update the itemList and notify the adapter
             cartItemList.clear()
-            val cartItems = items.map { CartItem(it, 0, 0.0) }
+            val cartItems = items.map { CartItem(it, 0) }
             cartItemList.addAll(cartItems)
+            Log.d("LoadItems", cartItems.toString())
+
             itemAdapter.notifyDataSetChanged()  // Update RecyclerView
         }, { error ->
             // Handle error (e.g., show a toast or log the error)
@@ -82,14 +118,11 @@ class UserProductListFragment: Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Refresh the list when the fragment becomes visible again
         loadItems()
+        (activity as? UserDashboard)?.setToolbarTitle("Sari Store")
+
     }
 
-    private fun addItemsToCart(cartItems: List<CartItem>) {
-        // Your logic to add items to the cart or send them to the server
-        // For example, you could call a repository method to place the order
-        // postOrder(newOrderRequest)
-    }
+
 
 }
