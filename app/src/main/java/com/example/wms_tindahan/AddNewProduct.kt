@@ -1,5 +1,6 @@
 package com.example.wms_tindahan
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -26,6 +27,7 @@ class AddNewProduct : AppCompatActivity() {
         val catInput: EditText = findViewById(R.id.prodCategoryEditTxt)
         val priceInput: EditText = findViewById(R.id.prodPriceEditTxt)
         val qtyInput: EditText = findViewById(R.id.prodQtyEditTxt)
+        val imgInput: EditText = findViewById(R.id.prodImgEditTxt)
         val addBtn: Button = findViewById(R.id.addButton)
         val title: TextView = findViewById(R.id.AddNewProductTitle)
 
@@ -38,6 +40,7 @@ class AddNewProduct : AppCompatActivity() {
         val productPrice = intent.getDoubleExtra("product_price", 0.0)
         val productQty = intent.getIntExtra("product_qty", 0)
         val productCategory = intent.getStringExtra("product_category")
+        val productImage = intent.getStringExtra("product_image")
 
 
 
@@ -47,7 +50,9 @@ class AddNewProduct : AppCompatActivity() {
             && productDescription != null
             && productPrice != 0.0
             && productQty != 0
-            && productCategory != null) {
+            && productCategory != null
+            && productImage != null) {
+
 
             // populate input fields
             nameInput.setText(productName)
@@ -55,16 +60,14 @@ class AddNewProduct : AppCompatActivity() {
             priceInput.setText(productPrice.toString())
             qtyInput.setText(productQty.toString())
             catInput.setText(productCategory)
+            imgInput.setText(productImage)
 
-            // change button name
+            // change button name to update/edit
             addBtn.text = "Update Product"
             title.text = "Edit Product"
         }
 
-
-
-        // TODO: add image
-        // handle add item
+        Log.d("EDIT ID", "ID: ${productId}")
 
 
         addBtn.setOnClickListener {
@@ -73,6 +76,7 @@ class AddNewProduct : AppCompatActivity() {
             val category = catInput.text.toString()
             val price = priceInput.text.toString().toDouble()
             val stockQty = qtyInput.text.toString().toInt()
+            val imgUrl = imgInput.text.toString()
 
 
 
@@ -81,7 +85,8 @@ class AddNewProduct : AppCompatActivity() {
                 description.isNotEmpty() &&
                 category.isNotEmpty() &&
                 price != 0.0 &&
-                stockQty != 0) {
+                stockQty != 0 &&
+                imgUrl.isNotEmpty()) {
 
 
 
@@ -95,7 +100,7 @@ class AddNewProduct : AppCompatActivity() {
                         category = catInput.text.toString(),
                         price = priceInput.text.toString().toDouble(),
                         stock_quantity = qtyInput.text.toString().toInt(),
-
+                        image = imgInput.text.toString()
                     )
 
                     repository.updateItem(
@@ -103,17 +108,21 @@ class AddNewProduct : AppCompatActivity() {
                         onSuccess = {
                             Toast.makeText(this, "Item updated successfully!", Toast.LENGTH_LONG).show()
 
-                            val intent = Intent(this, Product::class.java)
+//                            val intent = Intent(this, Product::class.java)
 
                             // Pass the product data to the Product activity
-                            intent.putExtra("product_id", updatedItem.id)
-                            intent.putExtra("product_name", updatedItem.item_name)
-                            intent.putExtra("product_description", updatedItem.item_description)
-                            intent.putExtra("product_price", updatedItem.price)
-                            intent.putExtra("product_qty", updatedItem.stock_quantity)
-                            intent.putExtra("product_category", updatedItem.category)
+                            val resultIntent = Intent()
 
-                            startActivity(intent)
+                            resultIntent.putExtra("product_id", updatedItem.id)
+                            resultIntent.putExtra("product_name", updatedItem.item_name)
+                            resultIntent.putExtra("product_description", updatedItem.item_description)
+                            resultIntent.putExtra("product_price", updatedItem.price)
+                            resultIntent.putExtra("product_qty", updatedItem.stock_quantity)
+                            resultIntent.putExtra("product_category", updatedItem.category)
+                            resultIntent.putExtra("product_image", updatedItem.image)
+
+                            setResult(Activity.RESULT_OK, resultIntent)
+                            finish()
                         },
                         onError = {
                             Toast.makeText(this, "Error: $it", Toast.LENGTH_LONG).show()
@@ -125,7 +134,8 @@ class AddNewProduct : AppCompatActivity() {
                         item_description = description,
                         category = category,
                         price = price,
-                        stock_quantity = stockQty
+                        stock_quantity = stockQty,
+                        image = imgUrl
                     )
 
                     repository.addItem(newItem,

@@ -22,8 +22,9 @@ data class Item (
     val category: String,
     val price: Double,
     val stock_quantity: Int,
-    val image: String ="dorito.png" // TODO: remove later when the url image is implemented
+    val image: String
 ) : Parcelable
+
 
 data class NewItemRequest(
     val user_id: Int = 1,
@@ -32,7 +33,7 @@ data class NewItemRequest(
     val category: String,
     val price: Double,
     val stock_quantity: Int,
-    val image: String = "dorito.png"
+    val image: String
     )
 
 data class Transaction(
