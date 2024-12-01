@@ -1,7 +1,7 @@
 package com.example.wms_tindahan
 
-import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,10 +18,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import java.lang.Exception
 import java.util.concurrent.Executors
+
 
 class Product : AppCompatActivity() {
 
@@ -40,6 +38,8 @@ class Product : AppCompatActivity() {
     private var productQty: Int = 0
     private var productCategory: String? = ""
     private var productImgUrl: String? = ""
+
+    private var userID: Int = 0;
 
     private lateinit var editProductLauncher: ActivityResultLauncher<Intent>
 
@@ -64,6 +64,11 @@ class Product : AppCompatActivity() {
         loadDetails()
 
 
+        // get userID getSharedPreferences
+        val prefs = this.getSharedPreferences("userID", Context.MODE_PRIVATE)
+        userID = prefs.getInt("userID", 0)
+
+        Log.d("PREF", "${userID}")
         Log.d("ITEM_DETAILS", "ID: ${productId}, Name: ${productName}, Description: ${productDescription}, Price: $${productPrice}, Quantity: ${productQty}, Category: ${productCategory}")
 
         // load the result data when update is finish
@@ -121,12 +126,8 @@ class Product : AppCompatActivity() {
         }
 
         deleteBtn.setOnClickListener {
-          //  val userId = getUserIdFromPreferences()  // Replace with actual method to get user_id
-            // TODO: update userID
-            val userId = 1;
-
             if (productId != 0) {
-                repository.deleteItem(productId, userId,
+                repository.deleteItem(productId, userID,
                     onSuccess = {
                         Toast.makeText(this, "Item deleted successfully!", Toast.LENGTH_LONG).show()
                         finish()  // Go back to the main activity

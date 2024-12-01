@@ -8,7 +8,7 @@ data class User(
     val id:Int
 )
 data class Item (
-    val user_id: Int = 1,
+    val user_id: Int,
     val id: Int? = null,
     val item_name: String,
     val item_description: String,
@@ -19,7 +19,7 @@ data class Item (
 )
 
 data class NewItemRequest(
-    val user_id: Int = 1,
+    val user_id: Int,
     val item_name: String,
     val item_description: String,
     val category: String,
@@ -45,9 +45,27 @@ data class OrderItem(
     val total_price: Double
 )
 
-data class RegisterRequest(val email: String, val name: String, val password: String)
-data class LoginRequest(val email: String, val password: String)
-data class ApiResponse(val message: String, val id: Int?)
+data class RegisterRequest(
+    val email: String,
+    val name: String,
+    val password: String
+)
+
+data class LoginRequest(
+    val email: String,
+    val password: String
+)
+
+data class RegisterApiResponse(
+    val message: String,
+    val id: Int?
+)
+
+data class LoginApiResponse(
+    val message: String,
+    val user: User
+)
+
 data class TopSellingItem(
     val _id: Int,
     val item_name: String,

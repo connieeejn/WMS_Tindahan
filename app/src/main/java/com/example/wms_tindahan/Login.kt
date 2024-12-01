@@ -2,15 +2,16 @@ package com.example.wms_tindahan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 class Login : AppCompatActivity() {
 
@@ -73,11 +74,17 @@ class Login : AppCompatActivity() {
         val apiService = RetrofitClient.getInstance(this)
         val loginRequest = LoginRequest(email, password)
 
-        apiService.loginUser(loginRequest).enqueue(object : Callback<ApiResponse> {
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+        apiService.loginUser(loginRequest).enqueue(object : Callback<LoginApiResponse> {
+            override fun onResponse(call: Call<LoginApiResponse>, response: Response<LoginApiResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val apiResponse = response.body()
                     Toast.makeText(this@Login, apiResponse?.message ?: "Login successful", Toast.LENGTH_SHORT).show()
+
+                    // Storing data into SharedPreferences
+                    val sharedPreferences = getSharedPreferences("userID", MODE_PRIVATE)
+                    val myEdit = sharedPreferences.edit()
+                    apiResponse?.user?.id?.let { myEdit.putInt("userID", it.toInt()) }
+                    myEdit.apply()
 
                     // Redirect to Inventory activity
                     startActivity(Intent(this@Login, Inventory::class.java))
@@ -87,7 +94,7 @@ class Login : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+            override fun onFailure(call: Call<LoginApiResponse>, t: Throwable) {
                 Toast.makeText(this@Login, "Login failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

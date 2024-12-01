@@ -69,8 +69,7 @@ class InventoryFragment : Fragment() {
         // category filter
         categorySpinner = view.findViewById(R.id.categorySpinner)
 
-        // Test add new item; this is temporary
-        // TODO: move add btn to the toolbar
+        // handle add button
         addBtn = view.findViewById(R.id.addItemButton)
 
 
