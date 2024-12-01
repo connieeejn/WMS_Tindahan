@@ -6,6 +6,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface WmsApiService {
@@ -39,4 +40,10 @@ interface WmsApiService {
 
     @GET("/api/top-selling-items")
     fun getTopSellingItems(): Call<List<TopSellingItem>>
+
+    @PUT("api/user/{user_id}/set-admin")
+    fun setAdmin(@Path("user_id") userId: Int): Call<ApiResponse>
+
+    @PUT("api/user/{user_id}/unset-admin")
+    fun unsetAdmin(@Path("user_id") userId: Int): Call<ApiResponse>
 }
