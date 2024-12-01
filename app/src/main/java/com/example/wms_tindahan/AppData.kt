@@ -69,13 +69,15 @@ data class NewOrderRequest(
 data class RegisterRequest(val email: String, val name: String, val password: String)
 data class LoginRequest(val email: String, val password: String)
 
-data class ApiResponse(val message: String, val id: Int?, val user: User, val email: String)
+data class ApiResponse(val message: String, val id: Int?, val user: User, val email: String, val total_order_price: Double?, val transaction_id: Int?)
 
 data class TopSellingItem(
     val _id: Int,
     val item_name: String,
     val total_quantity: Int)
 
-
+data class ErrorResponse(
+    val error: String
+)
 
 
