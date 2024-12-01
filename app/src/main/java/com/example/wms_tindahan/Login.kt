@@ -82,6 +82,7 @@ class Login : AppCompatActivity() {
                     Toast.makeText(this@Login, apiResponse?.message ?: "Login successful", Toast.LENGTH_SHORT).show()
 
                     val isAdmin = apiResponse?.user?.isAdmin ?: 0
+                    Log.d("isAdmin",isAdmin.toString())
                     if (isAdmin == 1) {
                         // Redirect to Inventory activity for admin users
                         startActivity(Intent(this@Login, Inventory::class.java))

@@ -20,7 +20,6 @@ import com.example.wms_tindahan.R
 
 class UserProductListFragment: Fragment() {
     private lateinit var itemRepository: ItemRepository
-    private lateinit var orderRepository: OrderRepository
     private lateinit var recyclerView: RecyclerView
     private val cartItemList = mutableListOf<CartItem>()
     private lateinit var itemAdapter: ItemUserAdapter
@@ -36,7 +35,6 @@ class UserProductListFragment: Fragment() {
 
         // Initialize repository with context
         itemRepository = ItemRepository(requireContext())
-        orderRepository = OrderRepository(requireContext())
 
         // Initialize RecyclerView
         recyclerView = view.findViewById(R.id.productsRecyclerView);
@@ -56,27 +54,9 @@ class UserProductListFragment: Fragment() {
 
         // Create CartItems for the products where quantity > 0
        val cartItemsToAdd = itemsToAdd.map { CartItem(item = it.item, quantity = it.quantity) }
-            println(cartItemsToAdd.toString())
-                      /*
-            cartItemsToAdd.forEach { cartItem ->
-               // println("Userid:${userId}")
-               // println("CartItem -> Item Name: ${cartItem.item.item_name}, Quantity: ${cartItem.quantity}")
-               // println("Item -> ${cartItem.item}")
-                cartItemList.add(cartItem)
-                println(cartItemList.toString())
-            }*/
-
+           // println(cartItemsToAdd.toString())
 
             val newOrder = NewOrderRequest (user_id = userId.toInt(),items= cartItemsToAdd)
-            /*orderRepository.postOrder(newOrder,
-                onSuccess = {
-                Toast.makeText(requireContext(), "Order added successfully!", Toast.LENGTH_LONG).show()
-
-            },
-                onError = {
-                    Toast.makeText(requireContext(), "Error: $it", Toast.LENGTH_LONG).show()
-                }
-            )*/
 
                 val newFragment = UserOrderListFragment() // The fragment to navigate to
                 val bundle = Bundle()
@@ -90,9 +70,6 @@ class UserProductListFragment: Fragment() {
                     .replace(com.example.wms_tindahan.R.id.fragment_container, newFragment) // Replace current fragment
                     .addToBackStack(null) // Add to back stack for navigation
                     .commit()
-
-
-
         }
 
     return view
