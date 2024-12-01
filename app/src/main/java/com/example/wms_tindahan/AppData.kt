@@ -36,23 +36,24 @@ data class NewItemRequest(
     val image: String
     )
 
+
 data class Transaction(
+    val _id: String? ,
     val transaction_id: Int,
     val user_id: Int,
     val items: List<OrderItem>,
     val total_order_price: Double,
-    val _id: String? ,
     val order_date:String
 )
 
-
+@Parcelize
 data class OrderItem(
-    val item_id: List<OrderItem>,
+    val item_id: Int,
     val item_name: String,
-    val item_description: String,
     val price: Double,
-    var quantity: Int? = null
-)
+    var quantity: Int? = null,
+    var total_price:Double?=null
+): Parcelable
 
 @Parcelize
 data class CartItem(
