@@ -2,12 +2,14 @@ package com.example.wms_tindahan
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wms_tindahan.userview.UserDashboard
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,8 +81,27 @@ class Login : AppCompatActivity() {
                     val apiResponse = response.body()
                     Toast.makeText(this@Login, apiResponse?.message ?: "Login successful", Toast.LENGTH_SHORT).show()
 
-                    // Redirect to Inventory activity
-                    startActivity(Intent(this@Login, Inventory::class.java))
+                    val isAdmin = apiResponse?.user?.isAdmin ?: 0
+                    Log.d("isAdmin",isAdmin.toString())
+                    if (isAdmin == 1) {
+                        // Redirect to Inventory activity for admin users
+                        startActivity(Intent(this@Login, Inventory::class.java))
+                    } else {
+                        // Redirect to User Dashboard activity for regular users
+                        val userId = apiResponse?.user?.id
+                        val userName = apiResponse?.user?.name
+                        val email = apiResponse?.user?.email
+
+                        val intent = Intent(this@Login, UserDashboard::class.java).apply {
+                            putExtra("USER_ID", userId.toString())
+                            putExtra("USER_NAME", userName)
+                            putExtra("USER_EMAIL", email)
+
+                        }
+                        startActivity(intent)
+
+                    }
+
                     finish()
                 } else {
                     Toast.makeText(this@Login, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
