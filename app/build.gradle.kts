@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.plugin.parcelize")
+
 }
 
 android {
@@ -51,4 +53,5 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0") // Optional for logging
     implementation("com.squareup.picasso:picasso:2.71828") // For loading images
     implementation("com.google.code.gson:gson:2.8.8") // Gson library
+
 }

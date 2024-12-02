@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.wms_tindahan.fragment.InventoryFragment
 import com.example.wms_tindahan.fragment.ReportFragment
+
 import com.example.wms_tindahan.fragment.UserFragment
 import com.google.android.material.navigation.NavigationView
 
@@ -48,6 +49,8 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
                 .replace(R.id.fragment_container, InventoryFragment()).commit()
             navigationView.setCheckedItem(R.id.nav_inventory)
         }
+
+
 
     }
 

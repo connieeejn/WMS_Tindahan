@@ -37,7 +37,7 @@ interface WmsApiService {
     fun addItem(@Body newItem: NewItemRequest): Call<Item>
 
 
-    @DELETE("/api/item/{id}")
+
     fun deleteItem(
         @Path("id") itemId: Int,
         @Query("user_id") userId: Int
@@ -52,4 +52,16 @@ interface WmsApiService {
 
     @GET("/api/top-selling-items")
     fun getTopSellingItems(): Call<List<TopSellingItem>>
+
+
+    @PUT("api/user/{user_id}/set-admin")
+    fun setAdmin(@Path("user_id") userId: Int): Call<ApiResponse>
+
+    @PUT("api/user/{user_id}/unset-admin")
+    fun unsetAdmin(@Path("user_id") userId: Int): Call<ApiResponse>
+
+    @POST("/api/order")
+    fun placeOrder(@Body newOrder: NewOrderRequest): Call<ApiResponse>
+
+
 }

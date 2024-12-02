@@ -34,6 +34,8 @@ class UserFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
 
+
+
         // Initialize UI Components
         totalUsersValue = view.findViewById(R.id.totalUsersValue)
         adminCountValue = view.findViewById(R.id.totalAdminsValue)
@@ -41,7 +43,7 @@ class UserFragment : Fragment() {
 
         // Setup RecyclerView
         recyclerViewAllUsers.layoutManager = LinearLayoutManager(requireContext())
-        usersAdapter = UserAdapter(mutableListOf())
+        usersAdapter = UserAdapter(mutableListOf(), requireContext(), this)
         recyclerViewAllUsers.adapter = usersAdapter
 
         // Fetch Users
@@ -50,7 +52,7 @@ class UserFragment : Fragment() {
         return view
     }
 
-    private fun fetchUsers() {
+     fun fetchUsers() {
         val baseUrl = getBaseUrlFromAssets()
 
         if (baseUrl.isEmpty()) {
@@ -77,7 +79,7 @@ class UserFragment : Fragment() {
         })
     }
 
-    private fun displayUserCounts(users: List<User>) {
+    fun displayUserCounts(users: List<User>) {
         val totalUsers = users.size
         val adminCount = users.count { it.isAdmin == 1 }
         // Display counts
@@ -113,5 +115,8 @@ class UserFragment : Fragment() {
     private fun handleFailure(logMessage: String, t: Throwable) {
         Log.e("API_FAILURE", "$logMessage: ${t.message}")
         Toast.makeText(requireContext(), "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+    }
+    fun refreshUserList(users: List<User>) {
+        usersAdapter.updateUsers(users)
     }
 }

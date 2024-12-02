@@ -35,7 +35,7 @@ class SignUp : AppCompatActivity() {
             val username = editTextUsername.text.toString().trim()
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
-
+            editTextPassword.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
             // Validate inputs
             if (validateInputs(username, email, password)) {
                 // Create Retrofit instance and API service
