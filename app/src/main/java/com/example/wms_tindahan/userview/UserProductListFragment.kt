@@ -52,38 +52,34 @@ class UserProductListFragment: Fragment() {
         reviewButton.setOnClickListener{
             val itemsToAdd = itemAdapter.getItemsWithQuantityGreaterThanZero()
 
-        // Create CartItems for the products where quantity > 0
-       val cartItemsToAdd = itemsToAdd.map { CartItem(item = it.item, quantity = it.quantity) }
-           // println(cartItemsToAdd.toString())
+            // Create CartItems for the products where quantity > 0
+            val cartItemsToAdd = itemsToAdd.map { CartItem(item = it.item, quantity = it.quantity) }
 
             val newOrder = NewOrderRequest (user_id = userId.toInt(),items= cartItemsToAdd)
 
-                val newFragment = UserOrderListFragment() // The fragment to navigate to
-                val bundle = Bundle()
-                bundle.putParcelable("cart_items_to_add", newOrder)
+            val newFragment = UserOrderListFragment() // The fragment to navigate to
+            val bundle = Bundle()
+            bundle.putParcelable("cart_items_to_add", newOrder)
+            newFragment.arguments = bundle
 
-                println(newOrder)
-
-                newFragment.arguments = bundle
-
-                parentFragmentManager.beginTransaction() // Use parentFragmentManager
-                    .replace(com.example.wms_tindahan.R.id.fragment_container, newFragment) // Replace current fragment
-                    .addToBackStack(null) // Add to back stack for navigation
-                    .commit()
+            parentFragmentManager.beginTransaction() // Use parentFragmentManager
+                .replace(com.example.wms_tindahan.R.id.fragment_container, newFragment) // Replace current fragment
+                .addToBackStack(null) // Add to back stack for navigation
+                .commit()
         }
 
-    return view
+        return view
 
     }
 
     private fun loadItems() {
-        Log.d("LoadItems", "onCreate: Activity started")
+//        Log.d("LoadItems", "onCreate: Activity started")
         itemRepository.getAllItems({ items ->
             // Update the itemList and notify the adapter
             cartItemList.clear()
             val cartItems = items.map { CartItem(it, 0) }
             cartItemList.addAll(cartItems)
-            Log.d("LoadItems", cartItems.toString())
+//            Log.d("LoadItems", cartItems.toString())
 
             itemAdapter.notifyDataSetChanged()  // Update RecyclerView
         }, { error ->

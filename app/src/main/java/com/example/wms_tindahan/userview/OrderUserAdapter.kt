@@ -53,30 +53,9 @@ class OrderUserAdapter(private val cartItemList: List<CartItem>):
         holder.totalItemPrice.text = "$${trimmedTotalPrice}"
         holder.quantity.text = cartList.quantity.toString()
 
+        // load image
         val productImgView: ImageView = holder.image
-
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
-
-        var image: Bitmap? = null;
-
-        // TODO: make imageUrl dynamic
-        executor.execute{
-            val imageUrl = if(item.image.isNotEmpty()) item.image else "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-            try {
-                val `in` = java.net.URL(imageUrl).openStream()
-
-                image = BitmapFactory.decodeStream(`in`)
-
-                handler.post{
-                    productImgView.setImageBitmap(image)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        loadImage(productImgView, item.image)
 
         holder.subtractButton.setOnClickListener {
             if (cartList.quantity > 0) { // Ensure quantity doesn't go below 0
@@ -92,9 +71,6 @@ class OrderUserAdapter(private val cartItemList: List<CartItem>):
             notifyItemChanged(position)  // Notify that this item has changed
 
         }
-
-
-
     }
 
 
@@ -104,5 +80,31 @@ class OrderUserAdapter(private val cartItemList: List<CartItem>):
 
     fun getItemsWithQuantityGreaterThanZero(): List<CartItem> {
         return cartItemList.filter { it.quantity > 0 }
+    }
+
+    private fun loadImage(imgView: ImageView, productImgUrl: String) {
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+
+        var image: Bitmap? = null;
+
+        if(productImgUrl.isNotEmpty()) {
+            executor.execute{
+                try {
+                    val `in` = java.net.URL(productImgUrl).openStream()
+
+                    image = BitmapFactory.decodeStream(`in`)
+
+                    handler.post {
+                        imgView.setImageBitmap(image)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            imgView.setImageResource(R.drawable.profile_foreground)
+        }
     }
 }

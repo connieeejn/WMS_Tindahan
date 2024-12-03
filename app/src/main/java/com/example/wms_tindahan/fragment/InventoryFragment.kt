@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wms_tindahan.AddNewProduct
@@ -33,8 +34,7 @@ class InventoryFragment : Fragment() {
     private var itemList: MutableList<Item> = mutableListOf()
     private var categories: MutableList<String> = mutableListOf()
 
-    private lateinit var updatedProductLauncher: ActivityResultLauncher<Intent>
-    private var selectedItemIndex: Int? = 0;
+    private lateinit var updatedResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,10 +42,26 @@ class InventoryFragment : Fragment() {
     ): View? {        // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_inventory, container, false)
 
+        // handle updated item result launcher
+        updatedResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val updatedItemID = result.data?.getIntExtra("product_id", 0)
+                if (updatedItemID != 0) {
+                    // Find the index of the updated item in the itemList
+                    val index = itemList.indexOfFirst { it.id == updatedItemID }
+
+                    if (index != -1) {
+                        // Notify the adapter that the item has changed
+                        itemAdapter.notifyItemChanged(index)
+                    }
+                }
+            }
+        }
+
         // initialize recyclerview
         recyclerView = view.findViewById<RecyclerView>(R.id.productsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        itemAdapter = ItemAdapter(itemList, this)
+        itemAdapter = ItemAdapter(itemList, updatedResultLauncher)
         recyclerView.adapter = itemAdapter
 
         // Initialize repository with context
@@ -55,7 +71,7 @@ class InventoryFragment : Fragment() {
         // fetch items
         loadItems()
 
-        // filter button
+        // handle filter button
         filterBtn = view.findViewById(R.id.filterBtn)
         filterBtn.setOnClickListener {
             val categoryContainer: LinearLayout = view.findViewById(R.id.inventoryFilterBtnLayout)
@@ -72,10 +88,9 @@ class InventoryFragment : Fragment() {
         // handle add button
         addBtn = view.findViewById(R.id.addItemButton)
 
-
         // Set click listener for the button
         addBtn.setOnClickListener {
-            // Redirect to a new activity when the button is clicked
+            // Redirect to a add new product activity when the button is clicked
             val intent = Intent(activity, AddNewProduct::class.java)
             startActivity(intent)
         }
@@ -103,13 +118,12 @@ class InventoryFragment : Fragment() {
         // clear categories to avoid duplicates
         categories.clear()
 
-        // add "All" category firs
+        // add "All" category first
         categories.add("All")
 
         // add distinct categories from item list
         val distinctCategories = itemList.map { it.category }.distinct()
         categories.addAll(distinctCategories)
-        Log.d("Categories", categories.toString())
 
         // set up spinner adapter
         val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
@@ -124,7 +138,6 @@ class InventoryFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-               Log.d("SELECTED CATEGORY", position.toString() )
                 val selectedCategory = parent?.getItemAtPosition(position).toString()
                 var filteredItems: List<Item> = mutableListOf()
 
@@ -132,15 +145,11 @@ class InventoryFragment : Fragment() {
                     "All" -> itemList
                     else -> itemList.filter { it.category == selectedCategory }}
 
-
-                Log.d("Filtered Categories", filteredItems.toString())
-
-
                 updateRecyclerView(filteredItems)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                Log.d("Error Message", "Nothing selected")
             }
 
         }
@@ -156,27 +165,4 @@ class InventoryFragment : Fragment() {
         loadItems()
     }
 
-    // Handle the result when ProductActivity finishes
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val updatedItemID = data?.getIntExtra("product_id", 0)
-            if (updatedItemID != 0) {
-                // Find the index of the updated item in the itemList
-                val index = itemList.indexOfFirst { it.id == updatedItemID }
-
-                if (index != -1) {
-                    // Notify the adapter that the item has changed
-                    itemAdapter.notifyItemChanged(index)
-
-                    Log.d("PRODUCT ID", "Updated item at index: $index with ID: $updatedItemID")
-                }
-            }
-        }
-    }
-
-    companion object {
-        const val REQUEST_CODE = 100 // Unique code to identify the request
-    }
 }

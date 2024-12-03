@@ -28,6 +28,7 @@ class Login : AppCompatActivity() {
         passwordEditText = findViewById(R.id.loginPasswordEditTxt)
         loginBtn = findViewById(R.id.loginButton)
         signUpBtn = findViewById(R.id.loginSignUpBtn)
+
         // Ensure password is hidden as dots/asterisks
         passwordEditText.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
 
@@ -78,9 +79,6 @@ class Login : AppCompatActivity() {
                     apiService.getAllUsers().enqueue(object : Callback<List<User>> {
                         override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
                             if (response.isSuccessful) {
-                                val users = response.body()
-                                val currentUser = users?.find { it.email == email }
-
 
                                 // Store userID data into SharedPreferences
                                 val sharedPreferences = getSharedPreferences("userID", MODE_PRIVATE)
@@ -89,7 +87,6 @@ class Login : AppCompatActivity() {
                                 myEdit.apply()
 
                                 val isAdmin = apiResponse?.user?.isAdmin ?: 0
-
                                 val userId = apiResponse?.user?.id
                                 val userName = apiResponse?.user?.name
                                 val email = apiResponse?.user?.email
@@ -101,9 +98,9 @@ class Login : AppCompatActivity() {
                                         putExtra("isAdmin", isAdmin)
                                         putExtra("USER_NAME", userName)
                                         putExtra("USER_EMAIL", email)
-
                                     }
                                     startActivity(intent)
+                                    finish()
                                 } else {
                                     // Redirect to User Dashboard activity for regular users
                                     val intent = Intent(this@Login, UserDashboard::class.java).apply {
@@ -113,16 +110,10 @@ class Login : AppCompatActivity() {
 
                                     }
                                     startActivity(intent)
+                                    finish()
+                                }
 
-
-
-//                                // Pass user details to the next activity
-//                                val intent = Intent(this@Login, Inventory::class.java)
-//                                intent.putExtra("isAdmin", isAdmin)
-//                                intent.putExtra("userName", currentUser?.name)
-//                                startActivity(intent)
-                                finish()
-                            }}
+                            }
                         }
 
                         override fun onFailure(call: Call<List<User>>, t: Throwable) {

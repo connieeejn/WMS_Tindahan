@@ -12,10 +12,6 @@ import retrofit2.http.Query
 
 interface WmsApiService {
 
-//    // register a new user
-//    @POST("api/register")
-//    fun register(@Body user: User): Call<User>
-
     @POST("/api/register")
     fun registerUser(@Body request: RegisterRequest): Call<ApiResponse>
 

@@ -20,9 +20,6 @@ import java.util.concurrent.Executors
 class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
     RecyclerView.Adapter<ItemUserAdapter.UserItemViewHolder>(){
 
-    // TODO: add image
-    // val image: ImageView = view.findViewById(R.id.itemImage)
-
     inner class UserItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.itemName)
         val description: TextView = view.findViewById(R.id.itemDescription)
@@ -57,31 +54,9 @@ class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
         // Set initial quantity
         holder.quantity.text = cartItem.quantity.toString()
 
+        // load image
         val productImgView: ImageView = holder.image
-
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
-
-        var image: Bitmap? = null;
-
-        // TODO: make imageUrl dynamic
-        executor.execute{
-//            val imageUrl = "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            val imageUrl = if(product.image.isNotEmpty()) product.image else "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-            try {
-                val `in` = java.net.URL(imageUrl).openStream()
-
-                image = BitmapFactory.decodeStream(`in`)
-
-                handler.post{
-                    productImgView.setImageBitmap(image)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        loadImage(productImgView, product.image)
 
         holder.subtractButton.setOnClickListener {
             if (cartItem.quantity > 0) { // Ensure quantity doesn't go below 0
@@ -91,15 +66,13 @@ class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
             }
         }
 
-      holder.addButton.setOnClickListener {
+        holder.addButton.setOnClickListener {
             cartItem.quantity++
             holder.quantity.text = cartItem.quantity.toString()
             notifyItemChanged(position)  // Notify that this item has changed
-
         }
 
-        }
-
+    }
 
     override fun getItemCount(): Int {
         return cartItems.size
@@ -107,5 +80,31 @@ class ItemUserAdapter(private val cartItems: MutableList<CartItem>):
 
     fun getItemsWithQuantityGreaterThanZero(): List<CartItem> {
         return cartItems.filter { it.quantity > 0 }
+    }
+
+    private fun loadImage(imgView: ImageView, productImgUrl: String) {
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+
+        var image: Bitmap? = null;
+
+        if(productImgUrl.isNotEmpty()) {
+            executor.execute{
+                try {
+                    val `in` = java.net.URL(productImgUrl).openStream()
+
+                    image = BitmapFactory.decodeStream(`in`)
+
+                    handler.post {
+                        imgView.setImageBitmap(image)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            imgView.setImageResource(R.drawable.profile_foreground)
+        }
     }
 }
