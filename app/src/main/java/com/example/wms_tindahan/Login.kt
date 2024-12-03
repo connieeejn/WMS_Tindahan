@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.wms_tindahan.userview.UserDashboard
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,15 +80,49 @@ class Login : AppCompatActivity() {
                             if (response.isSuccessful) {
                                 val users = response.body()
                                 val currentUser = users?.find { it.email == email }
-                                val isAdmin = currentUser?.isAdmin == 1
 
-                                // Pass user details to the next activity
-                                val intent = Intent(this@Login, Inventory::class.java)
-                                intent.putExtra("isAdmin", isAdmin)
-                                intent.putExtra("userName", currentUser?.name)
-                                startActivity(intent)
+
+                                // Store userID data into SharedPreferences
+                                val sharedPreferences = getSharedPreferences("userID", MODE_PRIVATE)
+                                val myEdit = sharedPreferences.edit()
+                                apiResponse?.user?.id?.let { myEdit.putInt("userID", it.toInt()) }
+                                myEdit.apply()
+
+                                val isAdmin = apiResponse?.user?.isAdmin ?: 0
+
+                                val userId = apiResponse?.user?.id
+                                val userName = apiResponse?.user?.name
+                                val email = apiResponse?.user?.email
+
+                                if (isAdmin == 1) {
+                                    // Redirect to Inventory activity for admin users
+                                    val intent = Intent(this@Login, Inventory::class.java).apply {
+                                        putExtra("USER_ID", userId.toString())
+                                        putExtra("isAdmin", isAdmin)
+                                        putExtra("USER_NAME", userName)
+                                        putExtra("USER_EMAIL", email)
+
+                                    }
+                                    startActivity(intent)
+                                } else {
+                                    // Redirect to User Dashboard activity for regular users
+                                    val intent = Intent(this@Login, UserDashboard::class.java).apply {
+                                        putExtra("USER_ID", userId.toString())
+                                        putExtra("USER_NAME", userName)
+                                        putExtra("USER_EMAIL", email)
+
+                                    }
+                                    startActivity(intent)
+
+
+
+//                                // Pass user details to the next activity
+//                                val intent = Intent(this@Login, Inventory::class.java)
+//                                intent.putExtra("isAdmin", isAdmin)
+//                                intent.putExtra("userName", currentUser?.name)
+//                                startActivity(intent)
                                 finish()
-                            }
+                            }}
                         }
 
                         override fun onFailure(call: Call<List<User>>, t: Throwable) {

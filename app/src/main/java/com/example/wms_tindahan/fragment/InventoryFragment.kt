@@ -1,5 +1,6 @@
 package com.example.wms_tindahan.fragment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,16 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Filter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
-import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wms_tindahan.AddNewProduct
-import com.example.wms_tindahan.Inventory
 import com.example.wms_tindahan.Item
 import com.example.wms_tindahan.ItemAdapter
 import com.example.wms_tindahan.ItemRepository
@@ -35,6 +33,9 @@ class InventoryFragment : Fragment() {
     private var itemList: MutableList<Item> = mutableListOf()
     private var categories: MutableList<String> = mutableListOf()
 
+    private lateinit var updatedProductLauncher: ActivityResultLauncher<Intent>
+    private var selectedItemIndex: Int? = 0;
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,7 +45,7 @@ class InventoryFragment : Fragment() {
         // initialize recyclerview
         recyclerView = view.findViewById<RecyclerView>(R.id.productsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        itemAdapter = ItemAdapter(itemList)
+        itemAdapter = ItemAdapter(itemList, this)
         recyclerView.adapter = itemAdapter
 
         // Initialize repository with context
@@ -68,8 +69,7 @@ class InventoryFragment : Fragment() {
         // category filter
         categorySpinner = view.findViewById(R.id.categorySpinner)
 
-        // Test add new item; this is temporary
-        // TODO: move add btn to the toolbar
+        // handle add button
         addBtn = view.findViewById(R.id.addItemButton)
 
 
@@ -79,9 +79,6 @@ class InventoryFragment : Fragment() {
             val intent = Intent(activity, AddNewProduct::class.java)
             startActivity(intent)
         }
-
-
-
 
         return view
     }
@@ -155,9 +152,31 @@ class InventoryFragment : Fragment() {
 
 
     override fun onResume() {
-
         super.onResume()
-        // Refresh the list when the fragment becomes visible again
         loadItems()
+    }
+
+    // Handle the result when ProductActivity finishes
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val updatedItemID = data?.getIntExtra("product_id", 0)
+            if (updatedItemID != 0) {
+                // Find the index of the updated item in the itemList
+                val index = itemList.indexOfFirst { it.id == updatedItemID }
+
+                if (index != -1) {
+                    // Notify the adapter that the item has changed
+                    itemAdapter.notifyItemChanged(index)
+
+                    Log.d("PRODUCT ID", "Updated item at index: $index with ID: $updatedItemID")
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_CODE = 100 // Unique code to identify the request
     }
 }

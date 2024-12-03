@@ -1,6 +1,7 @@
 package com.example.wms_tindahan
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,8 +12,10 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
+
 class AddNewProduct : AppCompatActivity() {
     private lateinit var repository: ItemRepository
+    private var userID: Int = 0;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +35,7 @@ class AddNewProduct : AppCompatActivity() {
         val addBtn: Button = findViewById(R.id.addButton)
         val title: TextView = findViewById(R.id.AddNewProductTitle)
 
-        // TODO: add image
-        // handle edit item
+
         // get intent values from product
         val productId = intent.getIntExtra("product_id", 0)
         val productName = intent.getStringExtra("product_name")
@@ -44,8 +46,11 @@ class AddNewProduct : AppCompatActivity() {
         val productImage = intent.getStringExtra("product_image")
 
 
+        // get userID getSharedPreferences
+        val prefs = this.getSharedPreferences("userID", Context.MODE_PRIVATE)
+        userID = prefs.getInt("userID", 0)
 
-        // TODO: add image
+
         if(productId != 0
             && productName != null
             && productDescription != null
@@ -69,6 +74,7 @@ class AddNewProduct : AppCompatActivity() {
         }
 
         Log.d("EDIT ID", "ID: ${productId}")
+        Log.d("USER ID", "USER ID: ${userID}")
 
 
         addBtn.setOnClickListener {
@@ -95,6 +101,7 @@ class AddNewProduct : AppCompatActivity() {
                 if (productId != 0) {
                     // Handle updating an existing product
                     val updatedItem = Item(
+                        user_id = userID,
                         id = productId,
                         item_name = nameInput.text.toString(),
                         item_description = descInput.text.toString(),
@@ -131,6 +138,7 @@ class AddNewProduct : AppCompatActivity() {
                 } else {
                     // Handle adding a new product
                     val newItem = NewItemRequest(
+                        user_id = userID,
                         item_name = name,
                         item_description = description,
                         category = category,

@@ -15,7 +15,7 @@ data class User(
 
 @Parcelize
 data class Item (
-  //  val user_id: Int = 1, // TODO: remove ??
+    val user_id: Int = 0, // required for deleting/updating an item
     val id: Int? = null,
     val item_name: String,
     val item_description: String,
@@ -46,14 +46,14 @@ data class Transaction(
     val order_date:String
 )
 
-@Parcelize
+
 data class OrderItem(
     val item_id: Int,
     val item_name: String,
     val price: Double,
     var quantity: Int? = null,
     var total_price:Double?=null
-): Parcelable
+)
 
 @Parcelize
 data class CartItem(

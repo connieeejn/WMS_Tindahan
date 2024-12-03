@@ -1,7 +1,7 @@
 package com.example.wms_tindahan
 
-import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -18,10 +18,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import java.lang.Exception
 import java.util.concurrent.Executors
+
+
 
 class Product : AppCompatActivity() {
 
@@ -41,7 +40,11 @@ class Product : AppCompatActivity() {
     private var productCategory: String? = ""
     private var productImgUrl: String? = ""
 
+    private var userID: Int = 0
+    private var updatedItemID: Int? = 0
+
     private lateinit var editProductLauncher: ActivityResultLauncher<Intent>
+    private var updatedResultIntent: Intent? =  null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +67,18 @@ class Product : AppCompatActivity() {
         loadDetails()
 
 
+        // get userID getSharedPreferences
+        val prefs = this.getSharedPreferences("userID", Context.MODE_PRIVATE)
+        userID = prefs.getInt("userID", 0)
+
+        Log.d("PREF", "${userID}")
         Log.d("ITEM_DETAILS", "ID: ${productId}, Name: ${productName}, Description: ${productDescription}, Price: $${productPrice}, Quantity: ${productQty}, Category: ${productCategory}")
 
         // load the result data when update is finish
         editProductLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == Activity.RESULT_OK) {
                 // Get updated data from the result intent
+                updatedItemID = result.data?.getIntExtra("product_id", 0)
                 val updatedProductName = result.data?.getStringExtra("product_name")
                 val updatedProductDescription = result.data?.getStringExtra("product_description")
                 val updatedProductPrice = result.data?.getDoubleExtra("product_price", 0.0)
@@ -84,16 +93,17 @@ class Product : AppCompatActivity() {
                 qtyTxtView.text = "In stock: ${updatedProductQty.toString()}"
                 categoryTxtView.text = updatedProductCategory
 
-
                 // load image
                 if (updatedProductImgUrl != null) {
                     loadImage(updatedProductImgUrl)
                 }
+
+                // store the edit activity result to be passed in inventory fragment
+                updatedResultIntent = Intent()
+                updatedResultIntent!!.putExtra("product_id", updatedItemID)
             }
 
         }
-
-
 
         // handle close, edit and delete
         val editBtn: Button = findViewById(R.id.updateProductBtn)
@@ -101,6 +111,11 @@ class Product : AppCompatActivity() {
         val closeBtn = findViewById<ImageButton>(R.id.prodCloseBtn)
 
         closeBtn.setOnClickListener {
+            // go back to inventory page
+            updatedResultIntent?.let {
+                setResult(Activity.RESULT_OK, updatedResultIntent)
+            }
+
             finish()
         }
 
@@ -121,12 +136,8 @@ class Product : AppCompatActivity() {
         }
 
         deleteBtn.setOnClickListener {
-          //  val userId = getUserIdFromPreferences()  // Replace with actual method to get user_id
-            // TODO: update userID
-            val userId = 1;
-
             if (productId != 0) {
-                repository.deleteItem(productId, userId,
+                repository.deleteItem(productId, userID,
                     onSuccess = {
                         Toast.makeText(this, "Item deleted successfully!", Toast.LENGTH_LONG).show()
                         finish()  // Go back to the main activity
