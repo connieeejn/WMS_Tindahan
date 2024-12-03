@@ -31,8 +31,6 @@ class Report : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListe
 
         drawerLayout = findViewById(R.id.drawer_layout)
 
-        // TODO: Make the nav title dynamic (can add filter/add)
-        // TODO: Different across fragments
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 

@@ -1,7 +1,6 @@
 package com.example.wms_tindahan
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -13,17 +12,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wms_tindahan.fragment.InventoryFragment.Companion.REQUEST_CODE
 import java.lang.Exception
 import java.util.concurrent.Executors
 
 
 class ItemAdapter(
     private var products: List<Item>,
-    private val fragment: Fragment,
-
+    private val resultLauncher: ActivityResultLauncher<Intent>,
     ):RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -53,33 +50,10 @@ class ItemAdapter(
         holder.price.text = "$${product.price.toString()}"
         holder.qty.text = "In stock: ${product.stock_quantity.toString()}"
         holder.category.text = product.category
-        // TODO: add image
 
-        // handle image
+        // load image
         val productImgView: ImageView = holder.image
-
-        val executor = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
-
-        var image: Bitmap? = null;
-
-        // TODO: make imageUrl dynamic
-        executor.execute{
-            val imageUrl = if(product.image.isNotEmpty()) product.image else "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-            try {
-                val `in` = java.net.URL(imageUrl).openStream()
-
-                image = BitmapFactory.decodeStream(`in`)
-
-                handler.post{
-                    productImgView.setImageBitmap(image)
-                }
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+        loadImage(productImgView, product.image)
 
         holder.itemCard.setOnClickListener {
             val intent = Intent(holder.itemView.context, Product::class.java)
@@ -93,11 +67,8 @@ class ItemAdapter(
             intent.putExtra("product_category", product.category)
             intent.putExtra("product_image", product.image)
 
-            // start activity
-            holder.itemView.context.startActivity(intent)
-
-            // Start ProductActivity and expect a result
-            fragment.startActivityForResult(intent, REQUEST_CODE)
+            // launch activity
+            resultLauncher.launch(intent)
         }
 
     }
@@ -109,6 +80,32 @@ class ItemAdapter(
     fun updateData(newItems: List<Item>) {
         this.products = newItems
         notifyDataSetChanged()
+    }
+
+    private fun loadImage(imgView: ImageView, productImgUrl: String) {
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+
+        var image: Bitmap? = null;
+
+        if(productImgUrl.isNotEmpty()) {
+            executor.execute{
+                try {
+                    val `in` = java.net.URL(productImgUrl).openStream()
+
+                    image = BitmapFactory.decodeStream(`in`)
+
+                    handler.post {
+                        imgView.setImageBitmap(image)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        } else {
+            imgView.setImageResource(R.drawable.profile_foreground)
+        }
     }
 
 }

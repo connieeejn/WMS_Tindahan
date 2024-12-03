@@ -53,7 +53,6 @@ class Product : AppCompatActivity() {
 
         repository = ItemRepository(this)
 
-
         // initialize views
         nameTxtView = findViewById(R.id.productName)
         descTxtView = findViewById(R.id.productDescription)
@@ -63,16 +62,15 @@ class Product : AppCompatActivity() {
         imgView = findViewById(R.id.productImg)
 
 
-        // get the intent values and load the items
+        // get the intent values and load the item details
         loadDetails()
-
 
         // get userID getSharedPreferences
         val prefs = this.getSharedPreferences("userID", Context.MODE_PRIVATE)
         userID = prefs.getInt("userID", 0)
 
-        Log.d("PREF", "${userID}")
-        Log.d("ITEM_DETAILS", "ID: ${productId}, Name: ${productName}, Description: ${productDescription}, Price: $${productPrice}, Quantity: ${productQty}, Category: ${productCategory}")
+//        Log.d("PREF", "${userID}")
+//        Log.d("ITEM_DETAILS", "ID: ${productId}, Name: ${productName}, Description: ${productDescription}, Price: $${productPrice}, Quantity: ${productQty}, Category: ${productCategory}")
 
         // load the result data when update is finish
         editProductLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -102,7 +100,6 @@ class Product : AppCompatActivity() {
                 updatedResultIntent = Intent()
                 updatedResultIntent!!.putExtra("product_id", updatedItemID)
             }
-
         }
 
         // handle close, edit and delete

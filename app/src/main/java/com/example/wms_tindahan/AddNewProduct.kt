@@ -25,7 +25,6 @@ class AddNewProduct : AppCompatActivity() {
         // Initialize repository with context
         repository = ItemRepository(this)
 
-
         val nameInput: EditText = findViewById(R.id.prodNameEditTxt)
         val descInput: EditText = findViewById(R.id.prodDescEditTxt)
         val catInput: EditText = findViewById(R.id.prodCategoryEditTxt)
@@ -35,7 +34,6 @@ class AddNewProduct : AppCompatActivity() {
         val addBtn: Button = findViewById(R.id.addButton)
         val title: TextView = findViewById(R.id.AddNewProductTitle)
 
-
         // get intent values from product
         val productId = intent.getIntExtra("product_id", 0)
         val productName = intent.getStringExtra("product_name")
@@ -44,7 +42,6 @@ class AddNewProduct : AppCompatActivity() {
         val productQty = intent.getIntExtra("product_qty", 0)
         val productCategory = intent.getStringExtra("product_category")
         val productImage = intent.getStringExtra("product_image")
-
 
         // get userID getSharedPreferences
         val prefs = this.getSharedPreferences("userID", Context.MODE_PRIVATE)
@@ -73,9 +70,7 @@ class AddNewProduct : AppCompatActivity() {
             title.text = "Edit Product"
         }
 
-        Log.d("EDIT ID", "ID: ${productId}")
-        Log.d("USER ID", "USER ID: ${userID}")
-
+//        Log.d("EDIT PRODUCT ID", "ID: ${productId}")
 
         addBtn.setOnClickListener {
             val name = nameInput.text.toString()
@@ -85,17 +80,12 @@ class AddNewProduct : AppCompatActivity() {
             val stockQty = qtyInput.text.toString().toInt()
             val imgUrl = imgInput.text.toString()
 
-
-
-
             if (name.isNotEmpty() &&
                 description.isNotEmpty() &&
                 category.isNotEmpty() &&
                 price != 0.0 &&
                 stockQty != 0 &&
                 imgUrl.isNotEmpty()) {
-
-
 
                 // Check if it's an update or add operation based on productId
                 if (productId != 0) {
@@ -115,8 +105,6 @@ class AddNewProduct : AppCompatActivity() {
                         productId, updatedItem,  // Pass productId for the item to be updated
                         onSuccess = {
                             Toast.makeText(this, "Item updated successfully!", Toast.LENGTH_LONG).show()
-
-//                            val intent = Intent(this, Product::class.java)
 
                             // Pass the product data to the Product activity
                             val resultIntent = Intent()

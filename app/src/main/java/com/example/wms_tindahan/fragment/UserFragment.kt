@@ -34,8 +34,6 @@ class UserFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_user, container, false)
 
-
-
         // Initialize UI Components
         totalUsersValue = view.findViewById(R.id.totalUsersValue)
         adminCountValue = view.findViewById(R.id.totalAdminsValue)
