@@ -45,8 +45,8 @@ class SignUp : AppCompatActivity() {
                 val request = RegisterRequest(email,username, password)
 
                 // Perform network call
-                apiService.registerUser(request).enqueue(object : Callback<RegisterApiResponse> {
-                    override fun onResponse(call: Call<RegisterApiResponse>, response: Response<RegisterApiResponse>) {
+                apiService.registerUser(request).enqueue(object : Callback<ApiResponse> {
+                    override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                         if (response.isSuccessful && response.body() != null) {
                             val apiResponse = response.body()
                             Toast.makeText(this@SignUp, apiResponse?.message ?: "Sign up successful", Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ class SignUp : AppCompatActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<RegisterApiResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                         Toast.makeText(this@SignUp, "Sign up failed: ${t.message}", Toast.LENGTH_SHORT).show()
                     }
                 })

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.concurrent.Executors
 
 
+
 class Product : AppCompatActivity() {
 
     private lateinit var repository: ItemRepository
@@ -39,9 +40,11 @@ class Product : AppCompatActivity() {
     private var productCategory: String? = ""
     private var productImgUrl: String? = ""
 
-    private var userID: Int = 0;
+    private var userID: Int = 0
+    private var updatedItemID: Int? = 0
 
     private lateinit var editProductLauncher: ActivityResultLauncher<Intent>
+    private var updatedResultIntent: Intent? =  null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,7 @@ class Product : AppCompatActivity() {
         editProductLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == Activity.RESULT_OK) {
                 // Get updated data from the result intent
+                updatedItemID = result.data?.getIntExtra("product_id", 0)
                 val updatedProductName = result.data?.getStringExtra("product_name")
                 val updatedProductDescription = result.data?.getStringExtra("product_description")
                 val updatedProductPrice = result.data?.getDoubleExtra("product_price", 0.0)
@@ -89,16 +93,17 @@ class Product : AppCompatActivity() {
                 qtyTxtView.text = "In stock: ${updatedProductQty.toString()}"
                 categoryTxtView.text = updatedProductCategory
 
-
                 // load image
                 if (updatedProductImgUrl != null) {
                     loadImage(updatedProductImgUrl)
                 }
+
+                // store the edit activity result to be passed in inventory fragment
+                updatedResultIntent = Intent()
+                updatedResultIntent!!.putExtra("product_id", updatedItemID)
             }
 
         }
-
-
 
         // handle close, edit and delete
         val editBtn: Button = findViewById(R.id.updateProductBtn)
@@ -106,6 +111,11 @@ class Product : AppCompatActivity() {
         val closeBtn = findViewById<ImageButton>(R.id.prodCloseBtn)
 
         closeBtn.setOnClickListener {
+            // go back to inventory page
+            updatedResultIntent?.let {
+                setResult(Activity.RESULT_OK, updatedResultIntent)
+            }
+
             finish()
         }
 

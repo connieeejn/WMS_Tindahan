@@ -81,6 +81,12 @@ class Login : AppCompatActivity() {
                                 val currentUser = users?.find { it.email == email }
                                 val isAdmin = currentUser?.isAdmin == 1
 
+                                // Store userID data into SharedPreferences
+                                val sharedPreferences = getSharedPreferences("userID", MODE_PRIVATE)
+                                val myEdit = sharedPreferences.edit()
+                                apiResponse?.user?.id?.let { myEdit.putInt("userID", it.toInt()) }
+                                myEdit.apply()
+
                                 // Pass user details to the next activity
                                 val intent = Intent(this@Login, Inventory::class.java)
                                 intent.putExtra("isAdmin", isAdmin)

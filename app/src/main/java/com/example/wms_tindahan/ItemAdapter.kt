@@ -1,26 +1,30 @@
 package com.example.wms_tindahan
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wms_tindahan.fragment.InventoryFragment.Companion.REQUEST_CODE
 import java.lang.Exception
 import java.util.concurrent.Executors
 
 
 class ItemAdapter(
-    private var products: List<Item>
-):RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+    private var products: List<Item>,
+    private val fragment: Fragment,
+
+    ):RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.itemName)
@@ -61,7 +65,6 @@ class ItemAdapter(
 
         // TODO: make imageUrl dynamic
         executor.execute{
-//            val imageUrl = "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             val imageUrl = if(product.image.isNotEmpty()) product.image else "https://plus.unsplash.com/premium_photo-1690440686714-c06a56a1511c?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
             try {
@@ -78,11 +81,6 @@ class ItemAdapter(
             }
         }
 
-
-
-        // Log the product details
-        Log.d("ITEM_DETAILS", "ID: ${product.id}, Name: ${product.item_name}, Description: ${product.item_description}, Price: $${product.price}, Quantity: ${product.stock_quantity}, Category: ${product.category}")
-        Log.d("ITEM_DETAILS", "IMAGE: ${product.image}")
         holder.itemCard.setOnClickListener {
             val intent = Intent(holder.itemView.context, Product::class.java)
 
@@ -97,6 +95,9 @@ class ItemAdapter(
 
             // start activity
             holder.itemView.context.startActivity(intent)
+
+            // Start ProductActivity and expect a result
+            fragment.startActivityForResult(intent, REQUEST_CODE)
         }
 
     }

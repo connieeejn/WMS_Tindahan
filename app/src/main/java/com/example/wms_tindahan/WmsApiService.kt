@@ -17,10 +17,10 @@ interface WmsApiService {
 //    fun register(@Body user: User): Call<User>
 
     @POST("/api/register")
-    fun registerUser(@Body request: RegisterRequest): Call<RegisterApiResponse>
+    fun registerUser(@Body request: RegisterRequest): Call<ApiResponse>
 
     @POST("/api/login") // Add login route in your Flask API
-    fun loginUser(@Body request: LoginRequest): Call<LoginApiResponse>
+    fun loginUser(@Body request: LoginRequest): Call<ApiResponse>
 
     // get users
     @GET("api/users")

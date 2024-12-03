@@ -15,7 +15,7 @@ data class User(
 
 @Parcelize
 data class Item (
-  //  val user_id: Int = 1, // TODO: remove ??
+    val user_id: Int = 0, // required for deleting/updating an item
     val id: Int? = null,
     val item_name: String,
     val item_description: String,
