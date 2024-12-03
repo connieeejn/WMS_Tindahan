@@ -46,14 +46,14 @@ data class Transaction(
     val order_date:String
 )
 
-@Parcelize
+
 data class OrderItem(
     val item_id: Int,
     val item_name: String,
     val price: Double,
     var quantity: Int? = null,
     var total_price:Double?=null
-): Parcelable
+)
 
 @Parcelize
 data class CartItem(

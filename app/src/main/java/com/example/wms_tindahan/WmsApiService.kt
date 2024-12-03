@@ -37,7 +37,7 @@ interface WmsApiService {
     fun addItem(@Body newItem: NewItemRequest): Call<Item>
 
 
-
+    @DELETE("/api/item/{id}")
     fun deleteItem(
         @Path("id") itemId: Int,
         @Query("user_id") userId: Int

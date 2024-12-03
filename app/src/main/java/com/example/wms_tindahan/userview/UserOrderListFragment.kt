@@ -75,6 +75,9 @@ class UserOrderListFragment: Fragment() {
 
                 val newOrder = NewOrderRequest (user_id = newOrder.user_id ,items= cartItemsToAdd)
 
+                Log.d("place order", "USERID: ${newOrder.user_id}")
+                Log.d("place order", cartItemsToAdd.toString())
+
                 placeOrder(newOrder)
 
             }

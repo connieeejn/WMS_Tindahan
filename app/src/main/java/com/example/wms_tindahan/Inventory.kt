@@ -3,6 +3,7 @@ package com.example.wms_tindahan
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 //import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
@@ -43,6 +44,16 @@ class Inventory : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLi
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
+        val userName = intent.getStringExtra("USER_NAME") ?: "Default Name"
+        val email = intent.getStringExtra("USER_EMAIL") ?: "Default Email"
+
+        val headerView = navigationView.getHeaderView(0)
+        val headerName = headerView.findViewById<TextView>(R.id.username)
+        val headerEmail = headerView.findViewById<TextView>(R.id.email) // Replace 'header_email' with the ID of another view
+
+        headerName.text = userName.capitalize()
+        headerEmail.text = email
 
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
